@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 const DashAppHolder = styled.div`
   font-family: #4482FF;
-
   h1,
   h2,
   h3,

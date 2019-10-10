@@ -5,7 +5,7 @@ import { signIn } from '../validations';
 import { ErrorBlock } from '../general.style';
 import { connect } from 'react-redux';
 import authActions from '../../redux/auth/actions';
-import { notification, Spin, Input, Button } from 'antd';
+import { notification, Spin, Input, Button, Icon } from 'antd';
 const { login } = authActions;
 class SignIn extends Component {
 	state = {};
@@ -39,7 +39,7 @@ class SignIn extends Component {
 			<Container>
 				<Spin spinning={loading} size="large">
 					<div className="container-title">
-						<i className="fa fa-cube" />
+						<Icon type="user"/>
 					</div>
 					<div className="container-body">
 						<Formik
