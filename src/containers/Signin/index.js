@@ -63,7 +63,7 @@ class SignIn extends Component {
 										</div>
 									</div>
 									<div className="form-error">
-										<ErrorMessage component={ErrorBlock} name="email" />
+										<ErrorMessage bottom component={ErrorBlock} name="email" />
 									</div>
 									<div className="form-group">
 										<div className="control">
@@ -77,7 +77,7 @@ class SignIn extends Component {
 										</div>
 									</div>
 									<div className="form-error">
-										<ErrorMessage component={ErrorBlock} name="password" />
+										<ErrorMessage bottom component={ErrorBlock} name="password" />
 									</div>
 									<div className="form-group">
 										<div className="control">

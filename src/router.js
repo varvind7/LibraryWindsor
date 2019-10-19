@@ -27,6 +27,8 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
     <ConnectedRouter history={history}>
       <Route exact path={'/'} component={asyncComponent(() => import('./containers/Signin'))} />
       <Route exact path={'/signin'} component={asyncComponent(() => import('./containers/Signin'))} />
+      <Route exact path={'/register'} component={asyncComponent(() => import('./containers/Register'))} />
+      <Route exact path={'/invalid'} component={asyncComponent(() => import('./containers/Invalid'))} />
       <RestrictedRoute path="/user" component={App} isLoggedIn={isLoggedIn} />
     </ConnectedRouter>
   );
