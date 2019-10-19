@@ -1,10 +1,10 @@
-import styled from 'styled-components';
-import { Input as FormInput, Select as FormSelect } from 'antd';
+import styled from "styled-components";
+import { Input as FormInput, Select as FormSelect } from "antd";
 
 export const ErrorBlock = styled.span`
 	color: red;
 	position: relative;
-	bottom: 25px;
+	bottom: ${props => (props.bottom ? "25px" : "0")};
 `;
 
 export const Input = styled(FormInput)`
@@ -18,7 +18,7 @@ export const Input = styled(FormInput)`
 `;
 
 export const Select = styled(FormSelect)`
-	width: ${props => props.width || '100%'} !important;
+	width: ${props => props.width || "100%"} !important;
 	.ant-select-selection {
 		border: none;
 		border-bottom: 2px solid #adadad;
