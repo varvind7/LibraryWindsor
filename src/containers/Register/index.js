@@ -29,6 +29,7 @@ class Register extends Component {
 	}
 
 	handleSubmit = data => {
+		console.log(data);
 		this.props.register(data);
 	};
 
