@@ -43,10 +43,8 @@ const axiosGet = async url => {
  */
 const axiosPost = async (data, url) => {
     try {
-        console.log(data);
-        let jsondta = JSON.stringify(data);
-        console.log(jsondta);
-        return await axios.post(`${BASE_URL}/${url}`, jsondta);
+
+        return await axios.post(`${BASE_URL}/${url}`, data, getHeaders());
     } catch (error) {
         checkError(error);
         throw error.response.data;
