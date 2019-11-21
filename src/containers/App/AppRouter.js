@@ -7,6 +7,14 @@ const routes = [
     path: '',
     component: asyncComponent(() => import('../RoomBooking')),
   },
+  {
+    path: 'feedback',
+    component: asyncComponent(() => import('../Feedback')),
+  },
+  {
+    path: 'bookingInfo',
+    component: asyncComponent(() => import('../BookingInfo')),
+  },
 ];
 
 class AppRouter extends Component {
