@@ -15,6 +15,10 @@ const routes = [
     path: 'bookingInfo',
     component: asyncComponent(() => import('../BookingInfo')),
   },
+  {
+    path: 'librarianInfo',
+    component: asyncComponent(() => import('../LibrarianInfo')),
+  },
 ];
 
 class AppRouter extends Component {

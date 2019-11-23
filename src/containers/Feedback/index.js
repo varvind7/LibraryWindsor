@@ -54,7 +54,7 @@ class Feedback extends Component {
 
           <div>
             <p>If you would like to write a feedback, </p>
-            <Button
+            <Button data-testid="button"
               color="secondary"
               onClick={e => this.setState({ isOpen: true })}
             >

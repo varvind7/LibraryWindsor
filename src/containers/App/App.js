@@ -32,13 +32,13 @@ export class App extends Component {
 					>
 						<Menu.Item key="1">
 							<Link to="/user">
-								<Icon type="user" />
+								<Icon type="appstore" />
 								<span>Booking </span>
 							</Link>
 						</Menu.Item>
 						<Menu.Item key="2">
 							<Link to="/user/feedback">
-								<Icon type="video-camera" />
+							<Icon type="fund" />
 								<span>Feedback</span>
 							</Link>
 						</Menu.Item>
@@ -46,6 +46,12 @@ export class App extends Component {
 							<Link to="/user/bookingInfo">
 								<Icon type="upload" />
 								<span>Booking Info</span>
+							</Link>
+						</Menu.Item>
+						<Menu.Item key="4">
+							<Link to="/user/librarianInfo">
+							<Icon type="interaction" />
+								<span>Status</span>
 							</Link>
 						</Menu.Item>
 					</Menu>
