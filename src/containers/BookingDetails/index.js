@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { Container, LoadDiv } from './booking.style';
 import { List, Card, Popconfirm } from 'antd';
-import { connect } from "react-redux";
 import roomsRecord from './rooms.json';
-import registerActions from "../../redux/roomBooking/actions";
-const { roomBooking } = registerActions;
 const { Meta } = Card;
 class RoomBooking extends Component {
 	state = {
@@ -12,7 +9,7 @@ class RoomBooking extends Component {
 	};
 
 	componentDidMount() {
-		this.props.roomBooking();
+		console.log('mounted');
 	}
 
 	componentDidUpdate(preProps, prevState) {}
@@ -24,12 +21,6 @@ class RoomBooking extends Component {
 		}
 		this.setState({ rooms });
 	};
-
-	/*this.props.history.push({
-		pathname:"/user/bookingDetails",
-		state: {roomId: index}
-	});*/
-	
 
 	render() {
 		const { rooms } = this.state;
@@ -49,7 +40,7 @@ class RoomBooking extends Component {
 					renderItem={(room, index) => (
 						<List.Item>
 							<LoadDiv green={room.is_booked}>
-							{/*	<Popconfirm
+								<Popconfirm
 									disabled={room.is_booked}
 									title="Do you want to book this room?"
 									onConfirm={e => {
@@ -57,13 +48,11 @@ class RoomBooking extends Component {
 									}}
 									okText="Yes"
 									cancelText="No"
-								>*/}
-									<Card hoverable onClick= {e => {
-										this.confirmRoom(index);
-									}}>
+								>
+									<Card hoverable>
 										<Meta title={room.name} description={room.description} />
 									</Card>
-								{/*</Popconfirm>*/}
+								</Popconfirm>
 							</LoadDiv>
 						</List.Item>
 					)}
@@ -73,10 +62,4 @@ class RoomBooking extends Component {
 	}
 }
 
-//export default RoomBooking;
-export default connect(
-	state => ({
-		...state.RoomBooking
-	}),
-	{ roomBooking }
-)(RoomBooking);
+export default RoomBooking;
