@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import AppRouter from './AppRouter';
-
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
 import { Layout, Menu, Icon } from 'antd';
 
 const { Header, Sider, Content } = Layout;
@@ -25,17 +26,29 @@ export class App extends Component {
 				<Sider trigger={null} collapsible collapsed={collapsed}>
 					<div className="logo" />
 					<Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-						<Menu.Item key="1">
-							<Icon type="user" />
-							<span>nav 1</span>
+					<Menu.Item key="1">
+							<Link to="/user">
+								<Icon type="appstore" />
+								<span>Booking </span>
+							</Link>
 						</Menu.Item>
 						<Menu.Item key="2">
-							<Icon type="video-camera" />
-							<span>nav 2</span>
+							<Link to="/user/feedback">
+							<Icon type="fund" />
+								<span>Feedback</span>
+							</Link>
 						</Menu.Item>
 						<Menu.Item key="3">
-							<Icon type="upload" />
-							<span>nav 3</span>
+							<Link to="/user/bookingInfo">
+								<Icon type="upload" />
+								<span>Booking Info</span>
+							</Link>
+						</Menu.Item>
+						<Menu.Item key="4">
+							<Link to="/user/librarianInfo">
+							<Icon type="interaction" />
+								<span>Status</span>
+							</Link>
 						</Menu.Item>
 					</Menu>
 				</Sider>
