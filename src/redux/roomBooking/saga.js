@@ -20,7 +20,7 @@ export function* roomBooking({ payload }) {
     //     res(true);
     //   }, 2000);
     // });
-    let request = yield axiosGet('/api/bookingRoomListing');
+    let request = yield axiosGet('auth/bookingRoomListing');
     console.log(request);
     yield put(actions.roomBookingSuccess(payload));
   } catch (error) {
