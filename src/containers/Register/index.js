@@ -5,12 +5,12 @@ import { ErrorBlock } from "../general.style";
 import { connect } from "react-redux";
 import registerActions from "../../redux/register/actions";
 import { Spin, Input, Button, Form, Layout } from "antd";
-const { checkToken, register } = registerActions;
+const { register } = registerActions;
 const { Content } = Layout;
 class Register extends Component {
 	state = {};
 
-	componentDidMount() {
+	componentDidMount() {/*
 		const {
 			location: { search },
 			history
@@ -26,10 +26,9 @@ class Register extends Component {
 			pathname: "/invalid",
 			state: { message: "Please provide valid URL." }
 		});
-	}
+	*/}
 
 	handleSubmit = data => {
-		console.log(data);
 		this.props.register(data);
 	};
 
@@ -74,12 +73,11 @@ class Register extends Component {
 									initialValues={{
 										email: "",
 										password: "",
-										confirm_password: "",
-										student_id: "",
-										name: "",
-										reference_id: details.reference_id,
-										user_type: details.user_type,
-										last_day: details.last_day
+										password_confirmation: "",
+										first_name: "",
+										last_name: "",
+										reference_id: "",
+										last_day: "2020-12-11"
 									}}
 									validationSchema={registerValidation}
 									onSubmit={this.handleSubmit}
@@ -120,12 +118,12 @@ class Register extends Component {
 												<Form.Item label="Student ID">
 													<Input
 														placeholder="Enter your student ID"
-														name="student_id"
+														name="reference_id"
 														onChange={handleChange}
 													/>
 													<ErrorMessage
 														component={ErrorBlock}
-														name="student_id"
+														name="reference_id"
 													/>
 												</Form.Item>
 												<Form.Item
@@ -162,12 +160,12 @@ class Register extends Component {
 												>
 													<Input.Password
 														placeholder="Confirm your password"
-														name="confirm_password"
+														name="password_confirmation"
 														onChange={handleChange}
 													/>
 													<ErrorMessage
 														component={ErrorBlock}
-														name="confirm_password"
+														name="password_confirmation"
 													/>
 												</Form.Item>
 												<Form.Item
@@ -197,5 +195,5 @@ export default connect(
 	state => ({
 		...state.Register
 	}),
-	{ checkToken, register }
+	{ register }
 )(Register);
