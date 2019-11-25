@@ -19,7 +19,7 @@ export function* registerRequest({ payload }) {
     //     res(true);
     //   }, 2000);
     // });
-    let request = yield axiosPost(payload, 'registration');
+    let request = yield axiosPost(payload, 'auth/register');
     yield put(actions.registerSuccess(payload));
   } catch (error) {
     yield put(actions.registerFailure(error.message, error.data || {}));

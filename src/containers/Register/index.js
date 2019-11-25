@@ -72,9 +72,10 @@ class Register extends Component {
 								<Formik
 									enableReinitialize
 									initialValues={{
-										email: details.email,
+										email: "",
 										password: "",
 										confirm_password: "",
+										student_id: "",
 										name: "",
 										reference_id: details.reference_id,
 										user_type: details.user_type,
@@ -94,15 +95,51 @@ class Register extends Component {
 												{...formItemLayout}
 												layout="vertical"
 											>
-												<Form.Item label="Full name">
+												<Form.Item label="First name">
 													<Input
-														placeholder="Enter your full name"
-														name="name"
+														placeholder="Enter your first name"
+														name="first_name"
 														onChange={handleChange}
 													/>
 													<ErrorMessage
 														component={ErrorBlock}
-														name="name"
+														name="first_name"
+													/>
+												</Form.Item>
+												<Form.Item label="Last name">
+													<Input
+														placeholder="Enter your last name"
+														name="last_name"
+														onChange={handleChange}
+													/>
+													<ErrorMessage
+														component={ErrorBlock}
+														name="last_name"
+													/>
+												</Form.Item>
+												<Form.Item label="Student ID">
+													<Input
+														placeholder="Enter your student ID"
+														name="student_id"
+														onChange={handleChange}
+													/>
+													<ErrorMessage
+														component={ErrorBlock}
+														name="student_id"
+													/>
+												</Form.Item>
+												<Form.Item
+													label="Email Address"
+													hasFeedback
+												>
+													<Input
+														placeholder="Enter your email address"
+														name="email"
+														onChange={handleChange}
+													/>
+													<ErrorMessage
+														component={ErrorBlock}
+														name="email"
 													/>
 												</Form.Item>
 												<Form.Item

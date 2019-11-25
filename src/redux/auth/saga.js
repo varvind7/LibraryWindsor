@@ -2,7 +2,7 @@ import { all, takeEvery, put } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import { getToken, clearToken } from '../../helpers/utility';
 import actions from './actions';
-// import { axiosPost, axiosGet } from '../axiosHelper';
+ import { axiosPost, axiosGet } from '../axiosHelper';
 
 /**
  * Request to login.
@@ -19,7 +19,7 @@ export function* loginRequest({ payload }) {
         res(true);
       }, 2000);
     });
-    if (payload.email === 'ramyaiyer96@gmail.com' && payload.password === 'Ramya@123') {
+    if (payload) {
       const token = 'TokenWillBeRetrivedFromServerAfterAuthentication';
       const response = {
         name: 'Ramya Iyer',
@@ -41,7 +41,7 @@ export function* loginRequest({ payload }) {
  */
 export function* getUser() {
   try {
-    // const { data } = yield axiosGet('/user');
+     const { data } = yield axiosGet('/api/login');
     const response = {
       name: 'Ramya Iyer',
     };

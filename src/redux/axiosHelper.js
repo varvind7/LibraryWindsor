@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 //const BASE_URL = process.env.REACT_APP_API_URL;
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = 'http://localhost:8000/api';
 
 /**
  * Gets the headers.
@@ -13,7 +13,9 @@ const getHeaders = () => {
     let config = {
         headers: {
             Authorization: authToken,
+           'Accept': 'application/json',
         },
+       
     };
     return authToken ? config : {};
 };
@@ -43,7 +45,9 @@ const axiosGet = async url => {
  */
 const axiosPost = async (data, url) => {
     try {
-
+        
+        console.log(data);
+        console.log(url);
         return await axios.post(`${BASE_URL}/${url}`, data, getHeaders());
     } catch (error) {
         checkError(error);

@@ -8,10 +8,12 @@ export const signIn = Yup.object().shape({
 });
 
 export const registerValidation = Yup.object().shape({
+	student_id: Yup.string().required("Please provide Student ID."),
 	email: Yup.string()
 		.email()
 		.required("Please provide email address."),
-	name: Yup.string().required("Please provide name."),
+	first_name: Yup.string().required("Please provide  first name."),
+	last_name: Yup.string().required("Please provide  last name."),
 	password: Yup.string().required("Please provide password."),
 	reference_id: Yup.string().required(),
 	user_type: Yup.number().required(),
