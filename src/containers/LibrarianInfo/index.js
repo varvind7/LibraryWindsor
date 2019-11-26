@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Row, Col,Divider,Form,Input,Button,Radio } from 'antd';
+import { connect } from "react-redux";
+import librarianActions from "../../redux/LibrarianInfo/actions";
+const { librarianRoomDetails } = librarianActions;
 class LibrarianInfo extends Component {
 
     
@@ -160,4 +163,9 @@ class LibrarianInfo extends Component {
         )
     }
 }
-export default LibrarianInfo;
+export default connect(
+	state => ({
+		...state.LibrarianInfo
+	}),
+	{ librarianRoomDetails }
+)(LibrarianInfo);

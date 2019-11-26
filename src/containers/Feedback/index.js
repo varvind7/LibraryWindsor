@@ -3,7 +3,9 @@ import CircularBar from "../../components/CircularBar";
 import { Table, Container } from "reactstrap";
 import FeedbackPopup from "../../components/FeedbackPopup";
 import { Button } from "reactstrap";
-
+import { connect } from "react-redux";
+import feedbackActions from "../../redux/feedback/actions";
+const { feedbackDetails } = feedbackActions;
 class Feedback extends Component {
   state = {
     isOpen: false
@@ -71,4 +73,10 @@ class Feedback extends Component {
     );
   }
 }
-export default Feedback;
+export default connect(
+	state => ({
+		...state.Feedback
+	}),
+	{ feedbackDetails }
+)(Feedback);
+
