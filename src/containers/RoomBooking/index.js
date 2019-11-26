@@ -52,7 +52,9 @@ class RoomBooking extends Component {
 					dataSource={rooms}
 					renderItem={(room, index) => (
 						<List.Item>
-							<LoadDiv green={room.is_booked}>
+							<LoadDiv
+								background={room.is_booked ? "orange" : null}
+							>
 								<Card
 									hoverable
 									onClick={e => {

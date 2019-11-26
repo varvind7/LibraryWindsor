@@ -27,7 +27,7 @@ const Container = styled.div`
 `;
 
 const LoadDiv = styled.div`
-	background: ${props => (props.green ? 'green' : 'white')};
+	background: ${props => (props.background ? props.background : 'white')};
 `;
 
 export { Container, LoadDiv };
