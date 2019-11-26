@@ -5,15 +5,7 @@ import asyncComponent from '../../helpers/AsyncFunc';
 const routes = [
   {
     path: '',
-    component: asyncComponent(() => import('../RoomBooking')),
-  },
-  {
-    path: 'bookingDetails',
-    component: asyncComponent(() => import('../BookingDetails')),
-  },
-  {
-    path: 'feedback',
-    component: asyncComponent(() => import('../Feedback')),
+    component: asyncComponent(() => import('../LibrarianInfo')),
   },
 
 ];

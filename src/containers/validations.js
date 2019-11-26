@@ -30,3 +30,9 @@ export const newBooking = Yup.object().shape({
 	persons: Yup.string().required("Please select number of person."),
 	additional_requirements: Yup.string()
 });
+
+
+export const feedbackValidation = Yup.object().shape({
+	room_id: Yup.string().required("Please select room."),
+	feedback: Yup.string().required("Please provide feedback.")
+});
