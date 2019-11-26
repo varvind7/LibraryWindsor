@@ -27,24 +27,30 @@ export class App extends Component {
 					<div className="logo" />
 					<Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
 					<Menu.Item key="1">
+							<Link to="/home">
+								<Icon type="appstore" />
+								<span>Home </span>
+							</Link>
+						</Menu.Item>
+					<Menu.Item key="2">
 							<Link to="/user">
 								<Icon type="appstore" />
 								<span>Booking </span>
 							</Link>
 						</Menu.Item>
-						<Menu.Item key="2">
+						<Menu.Item key="3">
 							<Link to="/user/feedback">
 							<Icon type="fund" />
 								<span>Feedback</span>
 							</Link>
 						</Menu.Item>
-						<Menu.Item key="3">
+						<Menu.Item key="4">
 							<Link to="/user/bookingInfo">
 								<Icon type="upload" />
 								<span>Booking Info</span>
 							</Link>
 						</Menu.Item>
-						<Menu.Item key="4">
+						<Menu.Item key="5">
 							<Link to="/user/librarianInfo">
 							<Icon type="interaction" />
 								<span>Status</span>
