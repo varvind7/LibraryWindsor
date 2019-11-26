@@ -5,6 +5,7 @@ import roomActions from "../roomBooking/actions";
 import { history } from "../store";
 import { axiosPost, axiosGet } from "../axiosHelper";
 import moment from "moment";
+import _ from 'lodash'
 /**
  * Request for new booking.
  *
@@ -13,11 +14,11 @@ import moment from "moment";
  */
 export function* bookingRequest({ payload }) {
   try {
-    let request = payload;
+    let request = _.cloneDeep(payload);
     request.booked_from = moment(request.booked_from).format(
-      "YYYY-MM-DD HH:mm:ss"
+      "HH:mm"
     );
-    request.booked_to = moment(request.booked_to).format("YYYY-MM-DD HH:mm:ss");
+    request.booked_to = moment(request.booked_to).format("HH:mm");
     let { data } = yield axiosPost(request, "booking/requestBooking");
     yield put(actions.bookingRequestSuccess(data.data));
     yield put(roomActions.roomDetails(request.room_id));

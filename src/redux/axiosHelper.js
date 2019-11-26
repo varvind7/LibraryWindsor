@@ -1,7 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 //const BASE_URL = process.env.REACT_APP_API_URL;
-const BASE_URL = 'http://localhost:8000/api';
+import { notification } from "antd";
+const BASE_URL = "http://localhost:8000/api";
 
 /**
  * Gets the headers.
@@ -12,15 +13,36 @@ const getHeaders = () => {
 
     let config = {
         headers: {
-            Authorization: authToken,
-           'Accept': 'application/json',
-        },
-       
+            Accept: "application/json"
+        }
     };
-    return authToken ? config : {};
+    if (authToken) {
+        config.headers.Authorization = authToken;
+    }
+
+    return config;
 };
 
-const checkError = error => {};
+const checkError = error => {
+    if (error.response && error.response.data) {
+        let { data } = error.response;
+        if (data.error) {
+            // let description = formatValidation(data.error);
+            // notification["error"]({
+            //     message: data.message,
+            //     description: description
+            // });
+        } else {
+            notification["error"]({
+                message: data.message
+            });
+        }
+    } else {
+        notification["error"]({
+            message: error.message
+        });
+    }
+};
 
 /**
  * Get call from Axios
@@ -45,9 +67,6 @@ const axiosGet = async url => {
  */
 const axiosPost = async (data, url) => {
     try {
-        
-        console.log(data);
-        console.log(url);
         return await axios.post(`${BASE_URL}/${url}`, data, getHeaders());
     } catch (error) {
         checkError(error);
@@ -84,9 +103,9 @@ const axiosSave = async (oldTask, newTask, url) => {
             `${BASE_URL}/${url}`,
             {
                 id: oldTask.id,
-                task: newTask,
+                task: newTask
             },
-            getHeaders(),
+            getHeaders()
         );
     } catch (error) {
         checkError(error);

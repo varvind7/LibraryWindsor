@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { connect } from 'react-redux';
 import App from './containers/App/App';
+import Librarian from './containers/Librarian';
 import asyncComponent from './helpers/AsyncFunc';
 
 const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
@@ -30,6 +31,7 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
       <Route exact path={'/register'} component={asyncComponent(() => import('./containers/Register'))} />
       <Route exact path={'/invalid'} component={asyncComponent(() => import('./containers/Invalid'))} />
       <RestrictedRoute path="/user" component={App} isLoggedIn={isLoggedIn} />
+      <RestrictedRoute path="/librarian" component={Librarian} isLoggedIn={isLoggedIn} />
      
     </ConnectedRouter>
   );

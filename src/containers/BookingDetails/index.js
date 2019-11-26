@@ -8,7 +8,7 @@ import {
 	Button,
 	Input,
 	Form,
-	DatePicker,
+	TimePicker,
 	InputNumber
 } from "antd";
 import { connect } from "react-redux";
@@ -22,17 +22,26 @@ const { roomDetails } = roomActions;
 const { bookingRequest, modalAction } = bookingActions;
 const { TextArea } = Input;
 
+const timeFormat = "HH:mm";
+
 const tableColumns = [
 	{
 		title: "Booking From",
 		dataIndex: "booked_from",
 		key: "booked_from",
+		render: text => {
+			return moment(text, "HH:mm:ss").format("hh:mm a");
+		}
 	},
 	{
 		title: "Booking To",
 		dataIndex: "booked_to",
-		key: "booked_to"
-	},{
+		key: "booked_to",
+		render: text => {
+			return moment(text, "HH:mm:ss").format("hh:mm a");
+		}
+	},
+	{
 		title: "No. of persons",
 		dataIndex: "persons",
 		key: "persons"
@@ -40,7 +49,28 @@ const tableColumns = [
 	{
 		title: "Booking Status",
 		dataIndex: "booking_status",
-		key: "booking_status"
+		key: "booking_status",
+		render: text => {
+			let status = "";
+
+			switch (text) {
+				case 1:
+					status = "Booked";
+					break;
+				case 2:
+					status = "Occupied";
+					break;
+				case 3:
+					status = "Cancelled By Librarian";
+					break;
+				case 4:
+					status = "Cancelled By Student";
+					break;
+				default:
+					status = "Undefined";
+			}
+			return status
+		}
 	}
 ];
 
@@ -70,9 +100,50 @@ class BookingDetails extends Component {
 		this.props.modalAction(false);
 	};
 
-	disabledDate = current => {
-		// Can not select days before today and today
-		return current && current < moment();
+	disabledHours = (booked = null) => {
+		var hours = [];
+		for (var i = 0; i < moment().hour(); i++) {
+			hours.push(i);
+		}
+		if (booked) {
+			for (
+				var i = 23;
+				i >
+				moment(booked)
+					.add(3, "hours")
+					.hour();
+				i--
+			) {
+				hours.push(i);
+			}
+			for (var i = 0; i < moment(booked).hour(); i++) {
+				hours.push(i);
+			}
+		}
+		return hours;
+	};
+
+	disabledMinutes = (selectedHour, booked = null) => {
+		var minutes = [];
+		if (selectedHour === moment().hour()) {
+			for (var i = 0; i < moment().minute(); i++) {
+				minutes.push(i);
+			}
+		}
+		if (booked) {
+			if (
+				selectedHour ==
+				moment(booked)
+					.add(3, "hours")
+					.hour()
+			) {
+				for (var i = 60; i > moment(booked).minute(); i--) {
+					minutes.push(i);
+				}
+			}
+		}
+
+		return minutes;
 	};
 
 	bindSubmitForm = submitForm => {
@@ -104,11 +175,7 @@ class BookingDetails extends Component {
 		return (
 			<Container>
 				<div className="right-button">
-					<Button
-						icon="plus"
-						type="primary"
-						onClick={this.showModal}
-					>
+					<Button icon="plus" type="primary" onClick={this.showModal}>
 						Request Booking
 					</Button>
 				</div>
@@ -127,7 +194,7 @@ class BookingDetails extends Component {
 					</Descriptions.Item>
 				</Descriptions>
 				<Divider />
-				<Descriptions title="Room Bookings"></Descriptions>
+				<Descriptions title="Today's Room Bookings"></Descriptions>
 				<Table columns={tableColumns} dataSource={room.booking} />
 				<Modal
 					title="Booking Request"
@@ -153,6 +220,7 @@ class BookingDetails extends Component {
 							enableReinitialize
 							initialValues={{
 								room_id: room.id,
+								booking_date: moment().format("YYYY-MM-DD"),
 								booked_from: null,
 								booked_to: null,
 								persons: "",
@@ -173,6 +241,8 @@ class BookingDetails extends Component {
 										<Form.Item label="No. of persons">
 											<InputNumber
 												style={{ width: "100%" }}
+												min={1}
+												max={4}
 												value={values.persons}
 												placeholder="Add no. of persons"
 												onChange={data => {
@@ -188,12 +258,17 @@ class BookingDetails extends Component {
 											/>
 										</Form.Item>
 										<Form.Item label="Booking From">
-											<DatePicker
+											<TimePicker
 												style={{ width: "100%" }}
-												showTime
-												disabledDate={this.disabledDate}
+												format={timeFormat}
+												disabledHours={
+													this.disabledHours
+												}
+												disabledMinutes={
+													this.disabledMinutes
+												}
 												value={values.booked_from}
-												placeholder="Select date"
+												placeholder="Select time"
 												onChange={data => {
 													setFieldValue(
 														"booked_from",
@@ -207,12 +282,21 @@ class BookingDetails extends Component {
 											/>
 										</Form.Item>
 										<Form.Item label="Booking To">
-											<DatePicker
+											<TimePicker
 												style={{ width: "100%" }}
-												showTime
-												disabledDate={this.disabledDate}
+												format={timeFormat}
 												value={values.booked_to}
-												placeholder="Select date"
+												disabledHours={this.disabledHours.bind(
+													this,
+													values.booked_from
+												)}
+												disabledMinutes={hour => {
+													return this.disabledMinutes(
+														hour,
+														values.booked_from
+													);
+												}}
+												placeholder="Select time"
 												onChange={data => {
 													setFieldValue(
 														"booked_to",
@@ -254,8 +338,8 @@ class BookingDetails extends Component {
 export default connect(
 	state => ({
 		...state.RoomBooking,
-		modal:state.Booking.modal,
-		submitLoading:state.Booking.loading
+		modal: state.Booking.modal,
+		submitLoading: state.Booking.loading
 	}),
 	{ roomDetails, bookingRequest, modalAction }
 )(BookingDetails);
