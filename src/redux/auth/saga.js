@@ -1,8 +1,8 @@
-import { all, takeEvery, put } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
-import { getToken, clearToken } from '../../helpers/utility';
-import actions from './actions';
- import { axiosPost, axiosGet } from '../axiosHelper';
+import { all, takeEvery, put } from "redux-saga/effects";
+import { push } from "connected-react-router";
+import { getToken, clearToken } from "../../helpers/utility";
+import actions from "./actions";
+import { axiosPost, axiosGet } from "../axiosHelper";
 
 /**
  * Request to login.
@@ -14,21 +14,13 @@ export function* loginRequest({ payload }) {
   try {
     // for demo purpose
 
-    yield new Promise((res, rej) => {
-      setTimeout(() => {
-        res(true);
-      }, 2000);
-    });
-    if (payload) {
-      const token = 'TokenWillBeRetrivedFromServerAfterAuthentication';
-      const response = {
-        name: 'Ramya Iyer',
-      };
-      yield localStorage.setItem('auth_token', token);
-
-      yield put(actions.loginSuccess(response, token));
+    const { data } = yield axiosPost(payload, "auth/login");
+    let { token, ...userData } = data.data;
+    if (token) {
+      yield localStorage.setItem("auth_token", token);
+      yield put(actions.loginSuccess(userData, token));
     } else {
-      throw new Error('Invalid credentials provided.');
+      throw new Error("Invalid credentials provided.");
     }
   } catch (error) {
     yield put(actions.loginFailure(error.message, error.data || {}));
@@ -41,13 +33,13 @@ export function* loginRequest({ payload }) {
  */
 export function* getUser() {
   try {
-     const { data } = yield axiosGet('/api/login');
+    const { data } = yield axiosGet("/api/login");
     const response = {
-      name: 'Ramya Iyer',
+      name: "Ramya Iyer"
     };
     yield put(actions.getUserSuccess(response));
   } catch (error) {
-    yield put(actions.getUserFailure(error.message || ''));
+    yield put(actions.getUserFailure(error.message || ""));
   }
 }
 
@@ -70,7 +62,7 @@ export function* logout() {
  */
 export function* logoutSuccess() {
   clearToken();
-  yield put(push('/'));
+  yield put(push("/"));
 }
 
 /**
@@ -78,7 +70,7 @@ export function* logoutSuccess() {
  *
  */
 export function* checkAuthorization() {
-  const token = getToken().get('authToken');
+  const token = getToken().get("authToken");
   if (token) {
     yield put(actions.loginSuccess({}, token));
   }
@@ -93,6 +85,6 @@ export default function* rootSaga() {
     takeEvery(actions.LOGIN_REQUEST, loginRequest),
     takeEvery(actions.LOGOUT, logout),
     takeEvery(actions.LOGOUT_SUCCESS, logoutSuccess),
-    takeEvery(actions.GET_USER, getUser),
+    takeEvery(actions.GET_USER, getUser)
   ]);
 }

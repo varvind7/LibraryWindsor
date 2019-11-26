@@ -1,11 +1,11 @@
 import actions from "./actions";
 
 const initState = {
-  user: {},
+  rooms: [],
+  room: {},
   loading: true,
   message: null,
-  errorData: {},
-  details: {}
+  errorData: {}
 };
 
 export default (state = initState, action) => {
@@ -16,22 +16,41 @@ export default (state = initState, action) => {
         errorData: {},
         loading: true,
         message: null,
-        user: {}
+        rooms: []
       };
     case actions.ROOM_BOOKING_SUCCESS:
       return {
         ...state,
         loading: false,
-        user: action.payload
+        rooms: action.payload || []
       };
     case actions.ROOM_BOOKING_FAILURE:
       return {
         ...state,
         loading: false,
         message: action.payload,
-        errorData: action.errors || {}
       };
-      default:
+    case actions.ROOM_DETAILS:
+      return {
+        ...state,
+        errorData: {},
+        loading: true,
+        message: null,
+        room: {}
+      };
+    case actions.ROOM_DETAILS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        room: action.payload
+      };
+    case actions.ROOM_DETAILS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        message: action.payload,
+      };
+    default:
       return state;
+  }
 };
-}

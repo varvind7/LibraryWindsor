@@ -2,7 +2,7 @@ import actions from "./actions";
 
 const initState = {
   user: {},
-  loading: true,
+  loading: false,
   message: null,
   errorData: {},
   details: {}

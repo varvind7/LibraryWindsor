@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
 	background: #fff;
@@ -24,10 +24,13 @@ const Container = styled.div`
 			width: 50%;
 		}
 	}
+	.right-button {
+		text-align: right;
+	}
 `;
 
-const LoadDiv = styled.div`
-	background: ${props => (props.green ? 'green' : 'white')};
-`;
+const ModalForm = styled.div`
 
-export { Container, LoadDiv };
+`
+
+export { Container, ModalForm };
