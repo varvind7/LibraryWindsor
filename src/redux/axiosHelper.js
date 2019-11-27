@@ -2,8 +2,7 @@ import axios from "axios";
 import { notification } from "antd";
 import { clearToken } from "../helpers/utility";
 import { history } from "./store";
-//const BASE_URL = process.env.REACT_APP_API_URL;
-const BASE_URL = "http://localhost:8000/api";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 /**
  * Gets the headers.
