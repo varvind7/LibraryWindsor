@@ -5,7 +5,8 @@ const initState = {
   loading: false,
   message: null,
   errorData: {},
-  details: {}
+  details: {},
+  action: null
 };
 
 export default (state = initState, action) => {
@@ -16,20 +17,23 @@ export default (state = initState, action) => {
         errorData: {},
         loading: true,
         message: null,
-        user: {}
+        user: {},
+        action: action.type
       };
     case actions.REGISTER_SUCCESS:
       return {
         ...state,
         loading: false,
-        user: action.payload
+        user: action.payload,
+        action: action.type
       };
     case actions.REGISTER_ERROR:
       return {
         ...state,
         loading: false,
         message: action.payload,
-        errorData: action.errors || {}
+        errorData: action.errors || {},
+        action: action.type
       };
     case actions.CHECK_TOKEN_REQUEST:
       return {
@@ -37,19 +41,22 @@ export default (state = initState, action) => {
         errorData: {},
         loading: true,
         message: null,
-        details: {}
+        details: {},
+        action: action.type
       };
     case actions.CHECK_TOKEN_SUCCESS:
       return {
         ...state,
         loading: false,
-        details: action.payload
+        details: action.payload,
+        action: action.type
       };
     case actions.CHECK_TOKEN_ERROR:
       return {
         ...state,
         loading: false,
-        message: action.payload
+        message: action.payload,
+        action: action.type
       };
     default:
       return state;

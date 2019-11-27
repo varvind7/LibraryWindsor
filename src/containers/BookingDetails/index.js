@@ -9,7 +9,9 @@ import {
 	Input,
 	Form,
 	TimePicker,
-	InputNumber
+	InputNumber,
+	Spin,
+	Checkbox
 } from "antd";
 import { connect } from "react-redux";
 import roomActions from "../../redux/roomBooking/actions";
@@ -42,7 +44,7 @@ const tableColumns = [
 		}
 	},
 	{
-		title: "No. of persons",
+		title: "Persons",
 		dataIndex: "persons",
 		key: "persons"
 	},
@@ -69,8 +71,23 @@ const tableColumns = [
 				default:
 					status = "Undefined";
 			}
-			return status
+			return status;
 		}
+	}
+];
+
+const feedbackTable = [
+	{
+		title: "Student",
+		key: "user",
+		render: (text, record, index) => {
+			return `${record.user.first_name} ${record.user.last_name}`;
+		}
+	},
+	{
+		title: "Feedback",
+		key: "feedback",
+		dataIndex: "feedback"
 	}
 ];
 
@@ -105,21 +122,6 @@ class BookingDetails extends Component {
 		for (var i = 0; i < moment().hour(); i++) {
 			hours.push(i);
 		}
-		if (booked) {
-			for (
-				var i = 23;
-				i >
-				moment(booked)
-					.add(3, "hours")
-					.hour();
-				i--
-			) {
-				hours.push(i);
-			}
-			for (var i = 0; i < moment(booked).hour(); i++) {
-				hours.push(i);
-			}
-		}
 		return hours;
 	};
 
@@ -128,18 +130,6 @@ class BookingDetails extends Component {
 		if (selectedHour === moment().hour()) {
 			for (var i = 0; i < moment().minute(); i++) {
 				minutes.push(i);
-			}
-		}
-		if (booked) {
-			if (
-				selectedHour ==
-				moment(booked)
-					.add(3, "hours")
-					.hour()
-			) {
-				for (var i = 60; i > moment(booked).minute(); i--) {
-					minutes.push(i);
-				}
 			}
 		}
 
@@ -174,161 +164,150 @@ class BookingDetails extends Component {
 		const { room, loading, modal, submitLoading } = this.props;
 		return (
 			<Container>
-				<div className="right-button">
-					<Button icon="plus" type="primary" onClick={this.showModal}>
-						Request Booking
-					</Button>
-				</div>
-
-				<Descriptions title="Room Info" bordered>
-					<Descriptions.Item label="Building">
-						{room.building_type === 1
-							? "Main building"
-							: "West building"}
-					</Descriptions.Item>
-					<Descriptions.Item label="Room Floor">
-						{room.floor}
-					</Descriptions.Item>
-					<Descriptions.Item label="Room number">
-						{room.room_no}
-					</Descriptions.Item>
-				</Descriptions>
-				<Divider />
-				<Descriptions title="Today's Room Bookings"></Descriptions>
-				<Table columns={tableColumns} dataSource={room.booking} />
-				<Modal
-					title="Booking Request"
-					visible={modal}
-					destroyOnClose
-					onCancel={this.hideModal}
-					footer={[
-						<Button key="back" onClick={this.hideModal}>
-							Cancel
-						</Button>,
+				<Spin spinning={loading}>
+					<div className="right-button">
 						<Button
-							key="submit"
+							icon="plus"
 							type="primary"
-							loading={submitLoading}
-							onClick={this.handleSubmitMyForm}
+							onClick={this.showModal}
 						>
-							Submit
+							Request Booking
 						</Button>
-					]}
-				>
-					<ModalForm>
-						<Formik
-							enableReinitialize
-							initialValues={{
-								room_id: room.id,
-								booking_date: moment().format("YYYY-MM-DD"),
-								booked_from: null,
-								booked_to: null,
-								persons: "",
-								additional_requirements: ""
-							}}
-							validationSchema={newBooking}
-							onSubmit={this.newBooking}
-							render={({
-								handleSubmit,
-								handleChange,
-								values,
-								setFieldValue,
-								submitForm
-							}) => {
-								this.bindSubmitForm(submitForm);
-								return (
-									<Form onSubmit={handleSubmit}>
-										<Form.Item label="No. of persons">
-											<InputNumber
-												style={{ width: "100%" }}
-												min={1}
-												max={4}
-												value={values.persons}
-												placeholder="Add no. of persons"
-												onChange={data => {
-													setFieldValue(
-														"persons",
-														data
-													);
-												}}
-											/>
-											<ErrorMessage
-												component={ErrorBlock}
-												name="persons"
-											/>
-										</Form.Item>
-										<Form.Item label="Booking From">
-											<TimePicker
-												style={{ width: "100%" }}
-												format={timeFormat}
-												disabledHours={
-													this.disabledHours
-												}
-												disabledMinutes={
-													this.disabledMinutes
-												}
-												value={values.booked_from}
-												placeholder="Select time"
-												onChange={data => {
-													setFieldValue(
-														"booked_from",
-														data
-													);
-												}}
-											/>
-											<ErrorMessage
-												component={ErrorBlock}
-												name="booked_from"
-											/>
-										</Form.Item>
-										<Form.Item label="Booking To">
-											<TimePicker
-												style={{ width: "100%" }}
-												format={timeFormat}
-												value={values.booked_to}
-												disabledHours={this.disabledHours.bind(
-													this,
-													values.booked_from
-												)}
-												disabledMinutes={hour => {
-													return this.disabledMinutes(
-														hour,
-														values.booked_from
-													);
-												}}
-												placeholder="Select time"
-												onChange={data => {
-													setFieldValue(
-														"booked_to",
-														data
-													);
-												}}
-											/>
-											<ErrorMessage
-												component={ErrorBlock}
-												name="booked_to"
-											/>
-										</Form.Item>
-										<Form.Item label="Additional Requirenments">
-											<TextArea
-												rows={4}
-												name="additional_requirements"
-												value={
-													values.additional_requirements
-												}
-												onChange={handleChange}
-											/>
-											<ErrorMessage
-												component={ErrorBlock}
-												name="additional_requirements"
-											/>
-										</Form.Item>
-									</Form>
-								);
-							}}
-						/>
-					</ModalForm>
-				</Modal>
+					</div>
+
+					<Descriptions title="Room Info" bordered>
+						<Descriptions.Item label="Building">
+							{room.building_type === 1
+								? "Main building"
+								: "West building"}
+						</Descriptions.Item>
+						<Descriptions.Item label="Room Floor">
+							{room.floor}
+						</Descriptions.Item>
+						<Descriptions.Item label="Room number">
+							{room.room_no}
+						</Descriptions.Item>
+					</Descriptions>
+					<Divider />
+					<Descriptions title="Today's Room Bookings" />
+					<Table columns={tableColumns} dataSource={room.booking} />
+					<Descriptions title="Room Fedback" />
+					<Table columns={feedbackTable} dataSource={room.feedback} />
+					<Modal
+						title="Booking Request"
+						visible={modal}
+						destroyOnClose
+						onCancel={this.hideModal}
+						footer={[
+							<Button key="back" onClick={this.hideModal}>
+								Cancel
+							</Button>,
+							<Button
+								key="submit"
+								type="primary"
+								loading={submitLoading}
+								onClick={this.handleSubmitMyForm}
+							>
+								Submit
+							</Button>
+						]}
+					>
+						<ModalForm>
+							<Formik
+								enableReinitialize
+								initialValues={{
+									room_id: room.id,
+									booking_date: moment().format("YYYY-MM-DD"),
+									booked_from: null,
+									// booked_to: null,
+									persons: "",
+									additional_requirements: false
+								}}
+								validationSchema={newBooking}
+								onSubmit={this.newBooking}
+								render={({
+									handleSubmit,
+									handleChange,
+									values,
+									setFieldValue,
+									submitForm
+								}) => {
+									this.bindSubmitForm(submitForm);
+									return (
+										<Form onSubmit={handleSubmit}>
+											<Form.Item label="No. of persons">
+												<InputNumber
+													style={{ width: "100%" }}
+													min={1}
+													max={4}
+													value={values.persons}
+													placeholder="Add no. of persons"
+													onChange={data => {
+														setFieldValue(
+															"persons",
+															data
+														);
+													}}
+												/>
+												<ErrorMessage
+													component={ErrorBlock}
+													name="persons"
+												/>
+											</Form.Item>
+											<Form.Item label="Booking Time">
+												<TimePicker
+													style={{ width: "100%" }}
+													format={timeFormat}
+													disabledHours={
+														this.disabledHours
+													}
+													disabledMinutes={
+														this.disabledMinutes
+													}
+													value={values.booked_from}
+													placeholder="Select time"
+													onChange={data => {
+														setFieldValue(
+															"booked_from",
+															data
+														);
+													}}
+												/>
+												<ErrorMessage
+													component={ErrorBlock}
+													name="booked_from"
+												/>
+											</Form.Item>
+											<Form.Item>
+												<Checkbox
+													name="additional_requirements"
+													checked={
+														values.additional_requirements
+													}
+													onChange={handleChange}
+												>
+													Additional Requirenments
+												</Checkbox>
+												{/*<TextArea
+																									rows={4}
+																									name="additional_requirements"
+																									value={
+																										values.additional_requirements
+																									}
+																									onChange={handleChange}
+																								/>
+																								<ErrorMessage
+																									component={ErrorBlock}
+																									name="additional_requirements"
+																								/>*/}
+											</Form.Item>
+										</Form>
+									);
+								}}
+							/>
+						</ModalForm>
+					</Modal>
+				</Spin>
 			</Container>
 		);
 	}

@@ -3,6 +3,10 @@ const actions = {
   FEEDBACK_SUCCESS: "FEEDBACK_SUCCESS",
   FEEDBACK_ERROR: "FEEDBACK_ERROR",
 
+  MY_ROOM_REQUEST: "MY_ROOM_REQUEST",
+  MY_ROOM_SUCCESS: "MY_ROOM_SUCCESS",
+  MY_ROOM_ERROR: "MY_ROOM_ERROR",
+
   /**
    * request to login.
    *
@@ -34,6 +38,37 @@ const actions = {
     type: actions.FEEDBACK_ERROR,
     payload,
     errors
+  }),
+
+  /**
+   * request to login.
+   *
+   * @param      {Object}  [payload={}]
+   */
+  getRooms: () => ({
+    type: actions.MY_ROOM_REQUEST,
+  }),
+
+  /**
+   * when getRooms is successfull.
+   *
+   * @param      {Object}  [payload={}]
+   * @param      {string}  [token=""]
+   */
+  getRoomsSuccess: (payload = []) => ({
+    type: actions.MY_ROOM_SUCCESS,
+    payload
+  }),
+
+  /**
+   * when something went wrong with getRooms.
+   *
+   * @param      {string}  [payload=""]
+   * @param      {Object}  [errors={}]
+   */
+  getRoomsFailure: (payload = "") => ({
+    type: actions.MY_ROOM_ERROR,
+    payload
   })
 };
 export default actions;

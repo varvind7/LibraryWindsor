@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, LoadDiv } from "./booking.style";
-import { List, Card, Popconfirm } from "antd";
+import { List, Card, Popconfirm, Descriptions } from "antd";
 import { connect } from "react-redux";
 import roomsRecord from "./rooms.json";
 import roomActions from "../../redux/roomBooking/actions";
@@ -39,6 +39,7 @@ class RoomBooking extends Component {
 		const { rooms } = this.props;
 		return (
 			<Container>
+			<Descriptions title="Rooms"/>
 				<List
 					grid={{
 						gutter: 16,

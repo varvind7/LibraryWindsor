@@ -26,7 +26,7 @@ export const newBooking = Yup.object().shape({
 	room_id: Yup.string().required("Something went wrong please refresh page."),
 	booking_date: Yup.string().required("Please select booking from."),
 	booked_from: Yup.string().required("Please select booking from."),
-	booked_to: Yup.string().required("Please select booking to."),
+	// booked_to: Yup.string().required("Please select booking to."),
 	persons: Yup.string().required("Please select number of person."),
 	additional_requirements: Yup.string()
 });

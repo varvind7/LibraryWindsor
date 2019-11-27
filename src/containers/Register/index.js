@@ -4,13 +4,15 @@ import { registerValidation } from "../validations";
 import { ErrorBlock } from "../general.style";
 import { connect } from "react-redux";
 import registerActions from "../../redux/register/actions";
+import { Link } from "react-router-dom";
 import { Spin, Input, Button, Form, Layout } from "antd";
 const { register } = registerActions;
 const { Content } = Layout;
 class Register extends Component {
 	state = {};
 
-	componentDidMount() {/*
+	componentDidMount() {
+		/*
 		const {
 			location: { search },
 			history
@@ -26,7 +28,17 @@ class Register extends Component {
 			pathname: "/invalid",
 			state: { message: "Please provide valid URL." }
 		});
-	*/}
+	*/
+	}
+
+	componentDidUpdate(prevProps) {
+		const { action, history } = this.props;
+		if (action !== prevProps.action) {
+			if (action === "REGISTER_SUCCESS") {
+				history.push("/");
+			}
+		}
+	}
 
 	handleSubmit = data => {
 		this.props.register(data);
@@ -177,6 +189,9 @@ class Register extends Component {
 													>
 														Register
 													</Button>
+													<Link to="/" style={{marginLeft:"10px"}}>
+														Already have account?
+													</Link>
 												</Form.Item>
 											</Form>
 										);

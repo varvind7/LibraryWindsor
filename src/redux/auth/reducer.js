@@ -5,7 +5,8 @@ const initState = {
   token: null,
   loading: false,
   message: null,
-  errorData: {}
+  errorData: {},
+  action: null
 };
 
 export default (state = initState, action) => {
@@ -16,14 +17,16 @@ export default (state = initState, action) => {
         errorData: {},
         loading: true,
         message: null,
-        token: null
+        token: null,
+        action: action.type
       };
     case actions.LOGIN_SUCCESS:
       return {
         ...state,
         loading: false,
         user: action.payload,
-        token: action.token
+        token: action.token,
+        action: action.type
       };
     case actions.LOGIN_ERROR:
       return {
@@ -31,29 +34,33 @@ export default (state = initState, action) => {
         token: null,
         loading: false,
         message: action.payload,
-        errorData: action.errors || {}
+        errorData: action.errors || {},
+        action: action.type
       };
     case actions.GET_USER:
       return {
-        ...state
+        ...state,
+        action: action.type
       };
     case actions.GET_USER_SUCCESS:
       return {
         ...state,
-        user: action.payload
+        user: action.payload,
+        action: action.type
       };
     case actions.GET_USER_ERROR:
       return {
         ...state,
         user: {},
-        message: action.payload
+        message: action.payload,
+        action: action.type
       };
     case actions.LOGOUT:
-      return { ...state };
+      return { ...state, action: action.type };
     case actions.LOGOUT_SUCCESS:
-      return { ...initState };
+      return { ...initState, action: action.type };
     case actions.LOGOUT_ERROR:
-      return { ...state };
+      return { ...state, action: action.type };
     default:
       return state;
   }

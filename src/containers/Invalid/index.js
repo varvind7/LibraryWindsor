@@ -3,7 +3,7 @@ import { Container } from './invalid.style';
 import {Icon} from 'antd'
 class Invalid extends Component {
 	state = {
-		message: 'Oops! Something went wrong, please try again later.',
+		message: 'You are trying to reach invalid url.',
 	};
 
 	componentDidMount() {
