@@ -5,7 +5,8 @@ const initState = {
   room: {},
   loading: true,
   message: null,
-  errorData: {}
+  errorData: {},
+  action: null
 };
 
 export default (state = initState, action) => {
@@ -16,19 +17,22 @@ export default (state = initState, action) => {
         errorData: {},
         loading: true,
         message: null,
-        rooms: []
+        rooms: [],
+        action: action.type
       };
     case actions.ROOM_BOOKING_SUCCESS:
       return {
         ...state,
         loading: false,
-        rooms: action.payload || []
+        rooms: action.payload || [],
+        action: action.type
       };
     case actions.ROOM_BOOKING_FAILURE:
       return {
         ...state,
         loading: false,
         message: action.payload,
+        action: action.type
       };
     case actions.ROOM_DETAILS:
       return {
@@ -36,19 +40,22 @@ export default (state = initState, action) => {
         errorData: {},
         loading: true,
         message: null,
-        room: {}
+        room: {},
+        action: action.type
       };
     case actions.ROOM_DETAILS_SUCCESS:
       return {
         ...state,
         loading: false,
-        room: action.payload
+        room: action.payload,
+        action: action.type
       };
     case actions.ROOM_DETAILS_FAILURE:
       return {
         ...state,
         loading: false,
         message: action.payload,
+        action: action.type
       };
     default:
       return state;

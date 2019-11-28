@@ -15,6 +15,10 @@ const routes = [
     path: 'feedback',
     component: asyncComponent(() => import('../Feedback')),
   },
+  {
+    path: 'myBookings',
+    component: asyncComponent(() => import('../MyBooking')),
+  },
 
 ];
 

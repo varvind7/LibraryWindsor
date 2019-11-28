@@ -33,6 +33,11 @@ export function* roomDetails({ payload }) {
       each.key = index;
       return each;
     });
+
+    response.feedback = response.feedback.map((each, index) => {
+      each.key = index;
+      return each;
+    });
     yield put(actions.roomDetailsSuccess(response));
   } catch (error) {
     yield put(actions.roomDetailsFailure(error.message, error.data || {}));

@@ -2,14 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { Container } from "./feedback.style";
 import { Form, Input, Button, Select, Descriptions } from "antd";
-import roomActions from "../../redux/roomBooking/actions";
 import feedbackActions from "../../redux/feedback/actions";
 import { Formik, ErrorMessage } from "formik";
 import { ErrorBlock } from "../general.style";
 import { feedbackValidation } from "../validations";
 
-const { roomBooking } = roomActions;
-const { feedback } = feedbackActions;
+const { feedback, getRooms } = feedbackActions;
 const { Option } = Select;
 const { TextArea } = Input;
 
@@ -17,11 +15,23 @@ class Feedback extends React.Component {
 	state = {};
 
 	componentDidMount() {
-		this.props.roomBooking();
+		this.props.getRooms();
 	}
 
-	handleSubmit = data => {
+	formReset = null;
+
+	componentDidUpdate(prevProps) {
+		const { action, history } = this.props;
+		if (prevProps.action != action) {
+			if (action === "FEEDBACK_SUCCESS") {
+				this.formReset({});
+			}
+		}
+	}
+
+	handleSubmit = (data, { resetForm }) => {
 		this.props.feedback(data);
+		this.formReset = resetForm;
 	};
 	render() {
 		const { rooms } = this.props;
@@ -73,11 +83,9 @@ class Feedback extends React.Component {
 										name="room_id"
 									/>
 								</Form.Item>
-								<Form.Item
-									label="Feedback"
-									value={values.feedback}
-								>
+								<Form.Item label="Feedback">
 									<TextArea
+										value={values.feedback}
 										rows={4}
 										placeholder="Provide feedback"
 										name="feedback"
@@ -104,7 +112,7 @@ class Feedback extends React.Component {
 
 export default connect(
 	state => ({
-		rooms: state.RoomBooking.rooms
+		...state.Feedback
 	}),
-	{ roomBooking, feedback }
+	{ feedback, getRooms }
 )(Feedback);

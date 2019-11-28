@@ -1,0 +1,32 @@
+[
+	{
+		"id": 1,
+		"name": "Library Room 1",
+		"is_booked": false,
+		"description": "Room 1 for group studies"
+	},
+	{
+		"id": 1,
+		"name": "Library Room 2",
+		"is_booked": true,
+		"description": "Room 2 for group studies"
+	},
+	{
+		"id": 1,
+		"name": "Library Room 3",
+		"is_booked": false,
+		"description": "Room 3 for group studies"
+	},
+	{
+		"id": 1,
+		"name": "Library Room 4",
+		"is_booked": false,
+		"description": "Room 4 for group studies"
+	},
+	{
+		"id": 1,
+		"name": "Library Room 5",
+		"is_booked": true,
+		"description": "Room 5 for group studies"
+	}
+]

@@ -18,6 +18,7 @@ export function* loginRequest({ payload }) {
     let { token, ...userData } = data.data;
     if (token) {
       yield localStorage.setItem("auth_token", token);
+      yield localStorage.setItem("user", JSON.stringify(userData));
       yield put(actions.loginSuccess(userData, token));
     } else {
       throw new Error("Invalid credentials provided.");
@@ -33,11 +34,11 @@ export function* loginRequest({ payload }) {
  */
 export function* getUser() {
   try {
-    const { data } = yield axiosGet("/api/login");
-    const response = {
-      name: "Ramya Iyer"
-    };
-    yield put(actions.getUserSuccess(response));
+    // const { data } = yield axiosGet("/api/login");
+    // const response = {
+    //   name: "Ramya Iyer"
+    // };
+    // yield put(actions.getUserSuccess());
   } catch (error) {
     yield put(actions.getUserFailure(error.message || ""));
   }
@@ -71,8 +72,12 @@ export function* logoutSuccess() {
  */
 export function* checkAuthorization() {
   const token = getToken().get("authToken");
-  if (token) {
-    yield put(actions.loginSuccess({}, token));
+  const user = getToken().get("user");
+  if (token && user) {
+    yield put(actions.loginSuccess(user, token));
+  } else {
+    clearToken();
+    yield put(push("/"));
   }
 }
 /**
